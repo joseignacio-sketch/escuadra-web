@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escuadra — Asesoría Inmobiliaria · Los Cabos</title>
+  <meta name="description" content="Escuadra Asesores. Consultoría y proyectos inmobiliarios en Los Cabos, Baja California Sur. Market Watch mensual, asesoría estratégica y gestión de activos." />
+  <meta name="keywords" content="inmobiliaria Los Cabos, bienes raíces San José del Cabo, market watch, Escuadra Asesores" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --gray-dark:   #4e5459;
+      --gray-mid:    #6b6e73;
+      --gray-light:  #e8eaec;
+      --sage:        #adbdb6;
+      --sage-light:  #d8e2de;
+      --white:       #f9f9f7;
+      --black:       #1a1a1a;
+      --border:      rgba(78,84,89,0.15);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--gray-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 15px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ── HEADER ─────────────────────────────────── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 60px;
+      background: rgba(249,249,247,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.4s;
+    }
+    header.scrolled { border-color: var(--border); }
+
+    .logo {
+      display: inline-block;
+      text-decoration: none;
+    }
+    .logo img {
+      height: 56px;
+      width: auto;
+      display: block;
+    }
+
+    nav { display: flex; gap: 36px; align-items: center; }
+    nav a {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+    nav a:hover { color: var(--gray-dark); }
+
+    .nav-cta {
+      border: 1px solid var(--gray-dark) !important;
+      color: var(--gray-dark) !important;
+      padding: 8px 20px;
+      letter-spacing: 0.14em !important;
+    }
+    .nav-cta:hover { background: var(--gray-dark); color: var(--white) !important; }
+
+    /* ── HERO ────────────────────────────────────── */
+    #inicio {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 0 60px 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gray-light) 0%, var(--sage-light) 50%, var(--white) 100%);
+    }
+    .hero-grid {
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size: 80px 80px;
+      opacity: 0.5;
+    }
+
+    .hero-content { position: relative; z-index: 2; max-width: 900px; }
+
+    .hero-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(52px, 7vw, 100px);
+      line-height: 0.95;
+      letter-spacing: -0.01em;
+      color: var(--gray-dark);
+      opacity: 0;
+      animation: fadeUp 0.9s 0.4s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--sage);
+    }
+
+    .hero-sub {
+      margin-top: 32px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      max-width: 420px;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.65s forwards;
+    }
+
+    .hero-actions {
+      margin-top: 48px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      opacity: 0;
+      animation: fadeUp 0.9s 0.85s forwards;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      background: var(--gray-dark);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 14px 36px;
+      transition: background 0.3s, transform 0.3s;
+    }
+    .btn-primary:hover { background: var(--black); transform: translateY(-1px); }
+
+    .btn-ghost {
+      display: inline-block;
+      color: var(--gray-mid);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-decoration: none;
+      border-bottom: 1px solid var(--sage);
+      padding-bottom: 2px;
+      transition: color 0.25s, border-color 0.25s;
+    }
+    .btn-ghost:hover { color: var(--gray-dark); border-color: var(--gray-dark); }
+
+    /* decorative logo mark hero */
+    .hero-mark {
+      position: absolute;
+      right: 60px;
+      bottom: 80px;
+      opacity: 0.06;
+      z-index: 1;
+    }
+    .hero-mark-inner {
+      border: 3px solid var(--gray-dark);
+      padding: 24px 28px;
+    }
+    .hero-mark-inner span {
+      display: block;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 64px;
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+      color: var(--gray-dark);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── SECTION BASE ────────────────────────────── */
+    section { padding: 100px 60px; }
+    .section-label {
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: clamp(32px, 4vw, 52px);
+      line-height: 1.1;
+      color: var(--gray-dark);
+      margin-bottom: 24px;
+    }
+    .section-divider {
+      width: 40px;
+      height: 1px;
+      background: var(--sage);
+      margin-bottom: 32px;
+    }
+
+    /* ── NOSOTROS ────────────────────────────────── */
+    #nosotros { background: var(--white); }
+
+    .nosotros-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+      max-width: 1100px;
+    }
+
+    .nosotros-text p {
+      color: var(--gray-mid);
+      margin-bottom: 18px;
+      font-size: 14px;
+    }
+
+    .nosotros-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    .stat-item { border-left: 2px solid var(--sage); padding-left: 20px; }
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 48px;
+      font-weight: 300;
+      color: var(--gray-dark);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-mid);
+      margin-top: 8px;
+    }
+
+    /* ── SERVICIOS ───────────────────────────────── */
+    #servicios { background: var(--gray-dark); }
+    #servicios .section-label { color: var(--sage); }
+    #servicios .section-title { color: var(--white); }
+    #servicios .section-divider { background: var(--sage); }
+
+    .servicios-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2px;
+      margin-top: 48px;
+    }
+
+    .servicio-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      padding: 40px 32px;
+      transition: background 0.3s;
+    }
+    .servicio-card:hover { background: rgba(255,255,255,0.09); }
+
+    .servicio-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px;
+      color: var(--sage);
+      letter-spacing: 0.2em;
+      margin-bottom: 24px;
+    }
+    .servicio-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--white);
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+    .servicio-desc {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.7;
+    }
+
+    /* ── MARKET WATCH ────────────────────────────── */
+    #market-watch { background: var(--sage-light); }
+
+    .mw-intro {
+      max-width: 600px;
+      margin-bottom: 60px;
+    }
+    .mw-intro p { color: var(--gray-mid); font-size: 14px; }
+
+    .mw-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .mw-card {
+      background: var(--white);
+      padding: 32px;
+      text-decoration: none;
+      display: block;
+      transition: transform 0.3s, box-shadow 0.3s;
+      border: 1px solid var(--border);
+    }
+    .mw-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(74,77,82,0.12); }
+
+    .mw-date {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 16px;
+    }
+    .mw-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--gray-dark);
+      line-height: 1.25;
+      margin-bottom: 12px;
+    }
+    .mw-excerpt {
+      font-size: 12.5px;
+      color: var(--gray-mid);
+      line-height: 1.65;
+    }
+    .mw-link {
+      display: inline-block;
+      margin-top: 20px;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gray-dark);
+      border-bottom: 1px solid var(--sage);
+      padding-bottom: 2px;
+    }
+
+    .mw-cta {
+      margin-top: 48px;
+      text-align: center;
+    }
+
+    /* ── EQUIPO ──────────────────────────────────── */
+    #equipo { background: var(--white); }
+
+    .equipo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      margin-top: 48px;
+    }
+
+    .persona {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+    }
+    .persona-nombre {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--gray-dark);
+      margin-bottom: 4px;
+    }
+    .persona-cargo {
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 16px;
+    }
+    .persona-contact {
+      font-size: 12px;
+      color: var(--gray-mid);
+      line-height: 1.9;
+    }
+    .persona-contact a {
+      color: var(--gray-mid);
+      text-decoration: none;
+    }
+    .persona-contact a:hover { color: var(--gray-dark); }
+
+    /* ── CONTACTO ────────────────────────────────── */
+    #contacto {
+      background: var(--gray-dark);
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: start;
+    }
+    #contacto .section-label { color: var(--sage); }
+    #contacto .section-title { color: var(--white); }
+    #contacto .section-divider { background: var(--sage); }
+
+    .contacto-info p {
+      color: rgba(255,255,255,0.5);
+      font-size: 13px;
+      margin-bottom: 32px;
+    }
+
+    .contacto-details { margin-top: 32px; }
+    .contacto-item {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 20px;
+    }
+    .contacto-key {
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 6px;
+    }
+    .contacto-val {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px;
+      color: var(--white);
+    }
+    .contacto-val a { color: inherit; text-decoration: none; }
+    .contacto-val a:hover { color: var(--sage); }
+
+    .contacto-form { padding-top: 0; }
+    .form-group { margin-bottom: 20px; }
+    .form-group label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sage);
+      margin-bottom: 8px;
+    }
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      padding: 12px 16px;
+      outline: none;
+      transition: border-color 0.25s;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+    .form-group input:focus,
+    .form-group textarea:focus { border-color: var(--sage); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+
+    .form-submit {
+      background: var(--sage);
+      color: var(--gray-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      border: none;
+      padding: 14px 40px;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .form-submit:hover { background: #9eb3ab; transform: translateY(-1px); }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      background: var(--black);
+      padding: 32px 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .footer-logo .logo { border-color: rgba(255,255,255,0.2); }
+    .footer-logo .logo span { color: rgba(255,255,255,0.6); }
+
+    .footer-copy {
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.25);
+    }
+
+    /* ── MOBILE ──────────────────────────────────── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1px;
+      background: var(--gray-dark);
+      transition: all 0.3s;
+    }
+
+    @media (max-width: 900px) {
+      header { padding: 20px 24px; }
+      nav { display: none; }
+      .hamburger { display: flex; }
+
+      #inicio { padding: 0 24px 60px; }
+      .hero-mark { display: none; }
+      section { padding: 72px 24px; }
+
+      .nosotros-grid,
+      .servicios-grid,
+      .equipo-grid,
+      .mw-grid { grid-template-columns: 1fr; gap: 24px; }
+
+      #contacto { grid-template-columns: 1fr; gap: 40px; padding: 72px 24px; }
+      footer { flex-direction: column; gap: 20px; padding: 28px 24px; text-align: center; }
+
+      .nosotros-stats { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header id="site-header">
+    <a href="#inicio" class="logo" aria-label="Escuadra">
+      <img src="logo-light.png" alt="Escuadra" />
+    </a>
+    <nav>
+      <a href="#nosotros">Nosotros</a>
+      <a href="#servicios">Servicios</a>
+      <a href="#market-watch">Market Watch</a>
+      <a href="#equipo">Equipo</a>
+      <a href="#contacto" class="nav-cta">Contacto</a>
+    </nav>
+    <button class="hamburger" aria-label="Menú" onclick="toggleNav()">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <!-- HERO -->
+  <section id="inicio">
+    <div class="hero-bg"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-mark" aria-hidden="true">
+      <img src="logo-light.png" alt="" style="width:320px;opacity:0.08;" />
+    </div>
+    <div class="hero-content">
+      <p class="hero-label">Asesoría Inmobiliaria · Los Cabos, B.C.S.</p>
+      <h1 class="hero-title">
+        Estrategia<br>
+        <em>& presencia</em><br>
+        inmobiliaria.
+      </h1>
+      <p class="hero-sub">Proyectos, consultoría y análisis de mercado en la región de Los Cabos</p>
+      <div class="hero-actions">
+        <a href="#servicios" class="btn-primary">Nuestros Servicios</a>
+        <a href="#market-watch" class="btn-ghost">Ver Market Watch →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- NOSOTROS -->
+  <section id="nosotros">
+    <div class="nosotros-grid">
+      <div class="nosotros-text">
+        <p class="section-label">Nosotros</p>
+        <h2 class="section-title">Conocimiento local.<br>Visión estratégica.</h2>
+        <div class="section-divider"></div>
+        <p>Escuadra es una firma de asesoría inmobiliaria con sede en San José del Cabo, especializada en el mercado de la región de Los Cabos. Acompañamos a inversionistas, desarrolladores y familias en la toma de decisiones estratégicas sobre activos inmobiliarios.</p>
+        <p>Nuestro enfoque combina análisis riguroso del mercado local con una gestión cercana y transparente, siempre orientada a proteger y potenciar el patrimonio de nuestros clientes.</p>
+      </div>
+      <div class="nosotros-stats">
+        <div class="stat-item">
+          <div class="stat-number">+20</div>
+          <div class="stat-label">Años de experiencia</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">Los<br>Cabos</div>
+          <div class="stat-label">Especialización regional</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">360°</div>
+          <div class="stat-label">Visión integral</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">RFC</div>
+          <div class="stat-label">EAS161020HQ4</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICIOS -->
+  <section id="servicios">
+    <p class="section-label">Servicios</p>
+    <h2 class="section-title">Lo que hacemos</h2>
+    <div class="section-divider"></div>
+    <div class="servicios-grid">
+      <div class="servicio-card">
+        <p class="servicio-num">01</p>
+        <h3 class="servicio-title">Consultoría de Inversión</h3>
+        <p class="servicio-desc">Análisis de oportunidades, due diligence y estructuración de inversiones inmobiliarias en Los Cabos y la región.</p>
+      </div>
+      <div class="servicio-card">
+        <p class="servicio-num">02</p>
+        <h3 class="servicio-title">Gestión de Proyectos</h3>
+        <p class="servicio-desc">Coordinación integral de proyectos de desarrollo, desde la etapa de planeación hasta la comercialización.</p>
+      </div>
+      <div class="servicio-card">
+        <p class="servicio-num">03</p>
+        <h3 class="servicio-title">Market Watch</h3>
+        <p class="servicio-desc">Reporte mensual de inteligencia del mercado inmobiliario de Los Cabos: precios, tendencias y oportunidades.</p>
+      </div>
+      <div class="servicio-card">
+        <p class="servicio-num">04</p>
+        <h3 class="servicio-title">Valuación y Análisis</h3>
+        <p class="servicio-desc">Estudios de valor, análisis comparativo de mercado y proyecciones para activos residenciales y comerciales.</p>
+      </div>
+      <div class="servicio-card">
+        <p class="servicio-num">05</p>
+        <h3 class="servicio-title">Asesoría en Adquisiciones</h3>
+        <p class="servicio-desc">Representación y acompañamiento en procesos de compra, negociación y cierre de transacciones inmobiliarias.</p>
+      </div>
+      <div class="servicio-card">
+        <p class="servicio-num">06</p>
+        <h3 class="servicio-title">Administración de Activos</h3>
+        <p class="servicio-desc">Gestión y supervisión de portafolios inmobiliarios para maximizar rendimiento y preservar el capital invertido.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARKET WATCH -->
+  <section id="market-watch">
+    <div class="mw-intro">
+      <p class="section-label">Market Watch</p>
+      <h2 class="section-title">Inteligencia<br>de mercado</h2>
+      <div class="section-divider"></div>
+      <p>Publicamos mensualmente nuestro análisis del mercado inmobiliario de Los Cabos. Precios, inventario, tendencias y oportunidades para inversionistas y compradores informados.</p>
+    </div>
+
+    <div class="mw-grid">
+      <!-- Card ejemplo 1 -->
+      <a href="#" class="mw-card">
+        <p class="mw-date">Abril 2026</p>
+        <h3 class="mw-title">Market Watch Los Cabos — Abril 2026</h3>
+        <p class="mw-excerpt">Análisis mensual del mercado residencial y de terrenos en la región de Los Cabos. Tendencias de precio, absorción y oportunidades destacadas del mes.</p>
+        <span class="mw-link">Leer reporte →</span>
+      </a>
+      <!-- Card ejemplo 2 -->
+      <a href="#" class="mw-card">
+        <p class="mw-date">Marzo 2026</p>
+        <h3 class="mw-title">Market Watch Los Cabos — Marzo 2026</h3>
+        <p class="mw-excerpt">Revisión del primer trimestre: comportamiento del inventario premium, nuevos desarrollos y proyección para el segundo semestre del año.</p>
+        <span class="mw-link">Leer reporte →</span>
+      </a>
+      <!-- Card ejemplo 3 -->
+      <a href="#" class="mw-card">
+        <p class="mw-date">Febrero 2026</p>
+        <h3 class="mw-title">Market Watch Los Cabos — Febrero 2026</h3>
+        <p class="mw-excerpt">Temporada alta 2026: impacto en precios de renta y venta, demanda extranjera y segmentos con mayor dinamismo en el corredor turístico.</p>
+        <span class="mw-link">Leer reporte →</span>
+      </a>
+    </div>
+
+    <div class="mw-cta">
+      <a href="#contacto" class="btn-primary">Recibir Market Watch mensual</a>
+    </div>
+  </section>
+
+  <!-- EQUIPO -->
+  <section id="equipo">
+    <p class="section-label">Equipo</p>
+    <h2 class="section-title">Las personas<br>detrás de Escuadra</h2>
+    <div class="section-divider"></div>
+    <div class="equipo-grid">
+      <div class="persona">
+        <h3 class="persona-nombre">Jose Ignacio Iturbide</h3>
+        <p class="persona-cargo">Proyectos Inmobiliarios</p>
+        <div class="persona-contact">
+          <div><a href="tel:6246886726">624 688 6726 ext. 1231</a></div>
+          <div><a href="tel:8112550145">811 255 0145</a></div>
+          <div><a href="mailto:joseignacio@escuadra.mx">joseignacio@escuadra.mx</a></div>
+        </div>
+      </div>
+      <div class="persona">
+        <h3 class="persona-nombre">Jose P. Iturbide</h3>
+        <p class="persona-cargo">Proyectos Inmobiliarios</p>
+        <div class="persona-contact">
+          <div><a href="tel:6246886726">624 688 6726</a></div>
+          <div><a href="tel:6241470698">624 147 0698</a></div>
+          <div><a href="mailto:jturbide@prodigy.net.mx">jturbide@prodigy.net.mx</a></div>
+        </div>
+      </div>
+      <div class="persona">
+        <h3 class="persona-nombre">Marco Klein</h3>
+        <p class="persona-cargo">Proyectos Inmobiliarios</p>
+        <div class="persona-contact">
+          <div><a href="tel:6246886726">624 688 6726</a></div>
+          <div><a href="tel:6241470242">624 147 0242</a></div>
+          <div><a href="href=escuadra.mx">escuadra.mx</a></div>
+        </div>
+      </div>
+      <div class="persona">
+        <h3 class="persona-nombre">Federico Giner</h3>
+        <p class="persona-cargo">Proyectos Inmobiliarios</p>
+        <div class="persona-contact">
+          <div><a href="tel:6246886726">624 688 6726</a></div>
+          <div><a href="tel:5554356209">555 435 6209</a></div>
+          <div><a href="href=escuadra.mx">escuadra.mx</a></div>
+        </div>
+      </div>
+      <div class="persona">
+        <h3 class="persona-nombre">Claudia Sánchez</h3>
+        <p class="persona-cargo">Proyectos Inmobiliarios</p>
+        <div class="persona-contact">
+          <div><a href="tel:6246886726">624 688 6726</a></div>
+          <div><a href="tel:6241914067">624 191 4067</a></div>
+          <div><a href="href=escuadra.mx">escuadra.mx</a></div>
+        </div>
+      </div>
+      <div class="persona">
+        <h3 class="persona-nombre">Juan Manuel Maldonado</h3>
+        <p class="persona-cargo">Proyectos Inmobiliarios</p>
+        <div class="persona-contact">
+          <div><a href="tel:6246886726">624 688 6726</a></div>
+          <div><a href="tel:4777294846">477 729 4846</a></div>
+          <div><a href="href=escuadra.mx">escuadra.mx</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="contacto-info">
+      <p class="section-label">Contacto</p>
+      <h2 class="section-title">Hablemos<br>de tu proyecto.</h2>
+      <div class="section-divider"></div>
+      <p>Estamos en San José del Cabo y atendemos proyectos en toda la región de Los Cabos. Escríbenos o llámanos para una primera conversación sin compromiso.</p>
+      <div class="contacto-details">
+        <div class="contacto-item">
+          <span class="contacto-key">Dirección</span>
+          <span class="contacto-val">Carretera Transpeninsular Km 24.8<br>Cerro Colorado, 23400<br>San José del Cabo, B.C.S.</span>
+        </div>
+        <div class="contacto-item">
+          <span class="contacto-key">Teléfono</span>
+          <span class="contacto-val"><a href="tel:6246886726">624 688 6726</a></span>
+        </div>
+        <div class="contacto-item">
+          <span class="contacto-key">Correo</span>
+          <span class="contacto-val"><a href="mailto:joseignacio@escuadra.mx">joseignacio@escuadra.mx</a></span>
+        </div>
+        <div class="contacto-item">
+          <span class="contacto-key">Web</span>
+          <span class="contacto-val">escuadra.mx</span>
+        </div>
+      </div>
+    </div>
+    <div class="contacto-form">
+      <div class="form-group">
+        <label>Nombre</label>
+        <input type="text" placeholder="Tu nombre completo" />
+      </div>
+      <div class="form-group">
+        <label>Correo electrónico</label>
+        <input type="email" placeholder="correo@ejemplo.com" />
+      </div>
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="tel" placeholder="(+52) 000 000 0000" />
+      </div>
+      <div class="form-group">
+        <label>Mensaje</label>
+        <textarea placeholder="Cuéntanos sobre tu proyecto o consulta..."></textarea>
+      </div>
+      <button class="form-submit" onclick="handleForm(event)">Enviar Mensaje</button>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">
+      <a href="#inicio" class="logo">
+        <img src="logo-dark.png" alt="Escuadra" style="height:52px;filter:brightness(0.7);" />
+      </a>
+    </div>
+    <p class="footer-copy">© 2026 Escuadra Asesores S.C. · RFC: EAS161020HQ4 · San José del Cabo, B.C.S.</p>
+  </footer>
+
+  <script>
+    // Header scroll effect
+    const header = document.getElementById('site-header');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Mobile nav
+    function toggleNav() {
+      const nav = document.querySelector('nav');
+      nav.style.display = nav.style.display === 'flex' ? 'none' : 'flex';
+      nav.style.flexDirection = 'column';
+      nav.style.position = 'fixed';
+      nav.style.top = '80px';
+      nav.style.left = '0';
+      nav.style.right = '0';
+      nav.style.background = 'rgba(249,249,247,0.97)';
+      nav.style.padding = '24px';
+      nav.style.gap = '20px';
+      nav.style.backdropFilter = 'blur(12px)';
+      nav.style.borderBottom = '1px solid rgba(74,77,82,0.15)';
+    }
+
+    // Close mobile nav on link click
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', () => {
+        const nav = document.querySelector('nav');
+        if (window.innerWidth <= 900) nav.style.display = 'none';
+      });
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.servicio-card, .mw-card, .persona, .stat-item').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(16px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      observer.observe(el);
+    });
+
+    // Form handler
+    function handleForm(e) {
+      e.preventDefault();
+      const btn = e.target;
+      btn.textContent = '✓ Mensaje enviado — te contactaremos pronto';
+      btn.style.background = '#4a4d52';
+      btn.style.color = 'white';
+      btn.disabled = true;
+    }
+  </script>
+</body>
+</html>
