@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Market Watch — March 2026 · Los Cabos · Escuadra</title>
+  <meta name="description" content="Escuadra Market Watch March 2026. Real estate market analysis for San José del Cabo, Corredor and Cabo San Lucas. Sales, prices, inventory and trends." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --gray-dark:   #4e5459;
+      --gray-mid:    #6b6e73;
+      --gray-light:  #e8eaec;
+      --sage:        #adbdb6;
+      --sage-light:  #d8e2de;
+      --white:       #f9f9f7;
+      --black:       #1a1a1a;
+      --border:      rgba(78,84,89,0.15);
+      --green-accent: #7da67a;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--white);
+      color: var(--gray-dark);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 300;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* HEADER */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 20px 60px;
+      background: rgba(249,249,247,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { display: inline-block; text-decoration: none; }
+    .logo img { height: 48px; width: auto; display: block; }
+    nav { display: flex; gap: 32px; align-items: center; }
+    nav a {
+      font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+      color: var(--gray-mid); text-decoration: none; transition: color 0.2s;
+    }
+    nav a:hover { color: var(--gray-dark); }
+    nav a.active { color: var(--gray-dark); border-bottom: 1px solid var(--sage); padding-bottom: 2px; }
+
+    /* HERO */
+    .mw-hero {
+      background: var(--gray-dark);
+      padding: 160px 60px 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: end;
+    }
+    .mw-hero-label {
+      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 16px;
+    }
+    .mw-hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300; font-size: clamp(44px, 6vw, 80px);
+      line-height: 0.95; color: var(--white);
+    }
+    .mw-hero-title em { font-style: italic; color: var(--sage); }
+    .mw-hero-sub {
+      margin-top: 24px; font-size: 12px; letter-spacing: 0.1em;
+      color: rgba(255,255,255,0.45); text-transform: uppercase;
+    }
+    .mw-hero-right { display: flex; flex-direction: column; gap: 24px; }
+    .hero-stat {
+      border-left: 2px solid var(--sage);
+      padding-left: 20px;
+    }
+    .hero-stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 40px; font-weight: 300; color: var(--white); line-height: 1;
+    }
+    .hero-stat-label {
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--sage); margin-top: 4px;
+    }
+    .hero-stat-note {
+      font-size: 11px; color: rgba(255,255,255,0.35); margin-top: 2px;
+    }
+
+    /* DISCLAIMER */
+    .disclaimer {
+      background: var(--sage-light);
+      padding: 20px 60px;
+      font-size: 11px; color: var(--gray-mid); line-height: 1.6;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* SECTIONS */
+    .section { padding: 80px 60px; }
+    .section-alt { background: var(--gray-light); }
+    .section-dark { background: var(--gray-dark); }
+
+    .section-label {
+      font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 12px;
+    }
+    .section-dark .section-label { color: var(--sage); }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400; font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 1.1; color: var(--gray-dark); margin-bottom: 12px;
+    }
+    .section-dark .section-title { color: var(--white); }
+    .section-divider {
+      width: 36px; height: 1px; background: var(--sage); margin-bottom: 40px;
+    }
+
+    /* HIGHLIGHTS */
+    .highlights-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+      margin-top: 40px;
+    }
+    .highlight-card {
+      background: var(--white); padding: 32px 28px;
+      border: 1px solid var(--border);
+    }
+    .highlight-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 13px; color: var(--sage); letter-spacing: 0.2em; margin-bottom: 16px;
+    }
+    .highlight-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 18px; font-weight: 500; color: var(--gray-dark);
+      margin-bottom: 8px; line-height: 1.3;
+    }
+    .highlight-desc { font-size: 12.5px; color: var(--gray-mid); line-height: 1.7; }
+
+    /* STATS TABLE */
+    .stats-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-top: 40px;
+    }
+    .stats-panel { background: var(--white); padding: 36px 32px; }
+    .stats-panel-dark { background: rgba(255,255,255,0.04); }
+    .stats-panel-title {
+      font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 24px; padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-table { width: 100%; border-collapse: collapse; }
+    .stats-table th {
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gray-mid); font-weight: 400; padding: 8px 0;
+      border-bottom: 1px solid var(--border); text-align: right;
+    }
+    .stats-table th:first-child { text-align: left; }
+    .stats-table td {
+      font-size: 13px; padding: 10px 0; border-bottom: 1px solid rgba(78,84,89,0.06);
+      text-align: right; color: var(--gray-dark);
+    }
+    .stats-table td:first-child { text-align: left; color: var(--gray-mid); }
+    .stats-table tr:last-child td {
+      font-weight: 500; color: var(--gray-dark); border-bottom: none;
+    }
+    .section-dark .stats-table th { color: rgba(255,255,255,0.4); border-color: rgba(255,255,255,0.1); }
+    .section-dark .stats-table td { color: rgba(255,255,255,0.8); border-color: rgba(255,255,255,0.06); }
+    .section-dark .stats-table td:first-child { color: rgba(255,255,255,0.4); }
+    .section-dark .stats-table tr:last-child td { color: var(--white); }
+    .section-dark .stats-panel-title { border-color: rgba(255,255,255,0.1); }
+
+    .metric-group { margin-bottom: 28px; }
+    .metric-group-title {
+      font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 8px;
+    }
+
+    /* CHARTS */
+    .charts-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 40px;
+    }
+    .chart-card {
+      background: var(--white); padding: 28px; border: 1px solid var(--border);
+    }
+    .chart-title {
+      font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gray-mid); margin-bottom: 20px;
+    }
+
+    /* COMMUNITY TABLE */
+    .community-table-wrap { margin-top: 40px; overflow-x: auto; }
+    .community-table {
+      width: 100%; border-collapse: collapse; min-width: 600px;
+    }
+    .community-table th {
+      font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--gray-mid); font-weight: 400; padding: 10px 16px;
+      border-bottom: 1px solid var(--border); text-align: right;
+      background: var(--white);
+    }
+    .community-table th:first-child { text-align: left; }
+    .community-table td {
+      font-size: 12.5px; padding: 10px 16px;
+      border-bottom: 1px solid rgba(78,84,89,0.07);
+      text-align: right; color: var(--gray-dark);
+    }
+    .community-table td:first-child { text-align: left; color: var(--gray-mid); }
+    .community-table tr:hover td { background: var(--sage-light); }
+    .community-table tr.top-row td { font-weight: 500; background: rgba(173,189,182,0.12); }
+    .community-table tfoot td {
+      font-weight: 500; border-top: 2px solid var(--sage);
+      border-bottom: none; color: var(--gray-dark); padding-top: 14px;
+    }
+
+    /* INVENTORY */
+    .inventory-grid {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; margin-top: 40px;
+    }
+    .inv-card {
+      background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08);
+      padding: 28px 24px;
+    }
+    .inv-type {
+      font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--sage); margin-bottom: 12px;
+    }
+    .inv-months {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 44px; font-weight: 300; color: var(--white); line-height: 1;
+    }
+    .inv-label {
+      font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(255,255,255,0.35); margin-top: 6px;
+    }
+    .inv-units {
+      font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 8px;
+    }
+
+    /* CONTACT CTA */
+    .cta-section {
+      background: var(--sage-light); padding: 80px 60px;
+      text-align: center;
+    }
+    .cta-section .section-title { margin: 0 auto 24px; max-width: 500px; }
+    .cta-section p { color: var(--gray-mid); margin-bottom: 32px; font-size: 13px; }
+    .btn-primary {
+      display: inline-block; background: var(--gray-dark); color: var(--white);
+      font-family: 'Montserrat', sans-serif; font-weight: 400;
+      font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase;
+      text-decoration: none; padding: 14px 40px; transition: background 0.3s;
+    }
+    .btn-primary:hover { background: var(--black); }
+    .btn-ghost {
+      display: inline-block; margin-left: 20px;
+      color: var(--gray-mid); font-size: 11px; letter-spacing: 0.18em;
+      text-transform: uppercase; text-decoration: none;
+      border-bottom: 1px solid var(--sage); padding-bottom: 2px;
+    }
+
+    /* FOOTER */
+    footer {
+      background: var(--black); padding: 28px 60px;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .footer-copy {
+      font-size: 11px; letter-spacing: 0.08em; color: rgba(255,255,255,0.25);
+    }
+
+    @media (max-width: 900px) {
+      header { padding: 16px 24px; }
+      nav { display: none; }
+      .mw-hero { grid-template-columns: 1fr; padding: 120px 24px 60px; gap: 40px; }
+      .disclaimer { padding: 16px 24px; }
+      .section { padding: 60px 24px; }
+      .highlights-grid, .stats-grid, .charts-grid { grid-template-columns: 1fr; }
+      .inventory-grid { grid-template-columns: 1fr 1fr; }
+      footer { flex-direction: column; gap: 16px; padding: 24px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <a href="index.html" class="logo">
+    <img src="logo-light.png" alt="Escuadra" />
+  </a>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="index.html#servicios">Services</a>
+    <a href="index.html#market-watch" class="active">Market Watch</a>
+    <a href="index.html#contacto">Contact</a>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="mw-hero">
+  <div>
+    <p class="mw-hero-label">Market Watch · March 2026</p>
+    <h1 class="mw-hero-title">
+      Los Cabos<br>
+      <em>Real Estate</em><br>
+      Report
+    </h1>
+    <p class="mw-hero-sub">San José del Cabo · Corredor · Cabo San Lucas</p>
+  </div>
+  <div class="mw-hero-right">
+    <div class="hero-stat">
+      <div class="hero-stat-number">80</div>
+      <div class="hero-stat-label">Total Sales</div>
+      <div class="hero-stat-note">10 above 12-month monthly average — strongest month since mid-2024</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-number">US$99.3M</div>
+      <div class="hero-stat-label">Total Volume</div>
+      <div class="hero-stat-note">US$21.4M above the rolling 12-month average</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-number">US$5,311</div>
+      <div class="hero-stat-label">Price per sqm</div>
+      <div class="hero-stat-note">8.8% above the rolling 12-month average</div>
+    </div>
+  </div>
+</div>
+
+<!-- DISCLAIMER -->
+<div class="disclaimer">
+  <strong>Disclaimer:</strong> This study delivers a general vision of reported transactions via the Flex-MLS system, which includes a significant portion of the market but not all of it. It is not to be used as an absolute market study. Escuadra Asesores nor any of its subsidiaries or employees assume any responsibility for decisions made upon this information. This report accounts only for Houses and Condominiums sold in the San José del Cabo, Corredor San José, Corredor San Lucas and Cabo San Lucas zones per Flex-MLS definitions.
+</div>
+
+<!-- HIGHLIGHTS -->
+<div class="section">
+  <p class="section-label">Key Findings</p>
+  <h2 class="section-title">March 2026 Highlights</h2>
+  <div class="section-divider"></div>
+  <div class="highlights-grid">
+    <div class="highlight-card">
+      <p class="highlight-num">01</p>
+      <h3 class="highlight-title">El Tezal-West leads in volume</h3>
+      <p class="highlight-desc">Most units sold with 20 transactions at an average price of US$399K and US$3,137/sqm — the most active submarket this month.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="highlight-num">02</p>
+      <h3 class="highlight-title">Palmilla Ocean Side tops dollar volume</h3>
+      <p class="highlight-desc">3 sales totaling US$21.5M with an average of US$17,549/sqm — the highest price per sqm recorded this month.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="highlight-num">03</p>
+      <h3 class="highlight-title">20 transactions above US$1M</h3>
+      <p class="highlight-desc">A quarter of all sales surpassed the million-dollar mark, reflecting continued strength in the luxury segment.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="highlight-num">04</p>
+      <h3 class="highlight-title">Under-$1M condos: stable pricing</h3>
+      <p class="highlight-desc">43 condo sales at US$3,720/sqm — 2% below the 12-month average, signaling relative stability in the accessible segment.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="highlight-num">05</p>
+      <h3 class="highlight-title">Under-$1M houses: price surge</h3>
+      <p class="highlight-desc">17 house sales at US$3,034/sqm — 19% above the 12-month average (US$2,539), the sharpest monthly increase this year.</p>
+    </div>
+    <div class="highlight-card">
+      <p class="highlight-num">06</p>
+      <h3 class="highlight-title">Inventory continues rising</h3>
+      <p class="highlight-desc">Full market: Houses 23.0 months (+0.8) / Condos 26.5 months (+1.0). Buyer-favorable conditions persist across all segments.</p>
+    </div>
+  </div>
+</div>
+
+<!-- FULL MARKET STATS -->
+<div class="section section-alt">
+  <p class="section-label">Full Market Analysis</p>
+  <h2 class="section-title">Los Cabos MLS + SJ Corridor</h2>
+  <div class="section-divider"></div>
+  <div class="stats-grid">
+    <!-- Los Cabos MLS -->
+    <div class="stats-panel">
+      <p class="stats-panel-title">Market Watch — Los Cabos (MLS)</p>
+      <div class="metric-group">
+        <p class="metric-group-title">Units Sold</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>290</td><td>79</td><td>27</td></tr>
+            <tr><td>Condos</td><td>549</td><td>151</td><td>53</td></tr>
+            <tr><td>Total</td><td>839</td><td>230</td><td>80</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Average Price (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>1,983,235</td><td>1,554,004</td><td>1,933,760</td></tr>
+            <tr><td>Condos</td><td>656,003</td><td>693,692</td><td>889,296</td></tr>
+            <tr><td>Total</td><td>1,114,760</td><td>989,191</td><td>1,241,803</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Avg Price per sqm (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>5,412</td><td>5,092</td><td>6,014</td></tr>
+            <tr><td>Condos</td><td>4,601</td><td>4,678</td><td>4,953</td></tr>
+            <tr><td>Total</td><td>4,881</td><td>4,820</td><td>5,311</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Total Volume (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>575,138,012</td><td>122,766,309</td><td>52,211,511</td></tr>
+            <tr><td>Condos</td><td>360,145,508</td><td>104,747,527</td><td>47,132,702</td></tr>
+            <tr><td>Total</td><td>935,283,520</td><td>227,513,836</td><td>99,344,213</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Inventory &amp; Days on Market</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>Months</th><th>Units</th><th>Avg DOM</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>23.0</td><td>556</td><td>184.8</td></tr>
+            <tr><td>Condos</td><td>26.5</td><td>1,212</td><td>226.1</td></tr>
+            <tr><td>Total</td><td>25.3</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SJ Corridor -->
+    <div class="stats-panel">
+      <p class="stats-panel-title">Market Watch — SJ Corridor</p>
+      <div class="metric-group">
+        <p class="metric-group-title">Units Sold</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>56</td><td>13</td><td>7</td></tr>
+            <tr><td>Condos</td><td>57</td><td>17</td><td>9</td></tr>
+            <tr><td>Total</td><td>113</td><td>30</td><td>16</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Average Price (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>5,481,365</td><td>4,933,038</td><td>5,263,857</td></tr>
+            <tr><td>Condos</td><td>1,498,528</td><td>1,898,595</td><td>2,240,666</td></tr>
+            <tr><td>Total</td><td>3,472,323</td><td>3,213,520</td><td>3,563,312</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Avg Price per sqm (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>12,428</td><td>12,938</td><td>12,931</td></tr>
+            <tr><td>Condos</td><td>7,432</td><td>8,744</td><td>8,500</td></tr>
+            <tr><td>Total</td><td>9,908</td><td>10,561</td><td>10,439</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Total Volume (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>306,956,421</td><td>64,129,500</td><td>36,847,000</td></tr>
+            <tr><td>Condos</td><td>85,416,076</td><td>32,276,108</td><td>20,165,991</td></tr>
+            <tr><td>Total</td><td>392,372,497</td><td>96,405,608</td><td>57,012,991</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Inventory &amp; Days on Market</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>Months</th><th>Units</th><th>Avg DOM</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>19.1</td><td>89</td><td>225.7</td></tr>
+            <tr><td>Condos</td><td>27.6</td><td>131</td><td>298.6</td></tr>
+            <tr><td>Total</td><td>23.5</td><td>—</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHARTS -->
+<div class="section">
+  <p class="section-label">Trends</p>
+  <h2 class="section-title">Price per sqm — 24 months</h2>
+  <div class="section-divider"></div>
+  <div class="charts-grid">
+    <div class="chart-card">
+      <p class="chart-title">Los Cabos Full Market · Price per sqm (US$)</p>
+      <canvas id="chartLosCabos" height="220"></canvas>
+    </div>
+    <div class="chart-card">
+      <p class="chart-title">Under US$1M Market · Price per sqm (US$)</p>
+      <canvas id="chartU1M" height="220"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- UNDER $1M -->
+<div class="section section-alt">
+  <p class="section-label">Under US$1 Million</p>
+  <h2 class="section-title">Accessible Market Analysis</h2>
+  <div class="section-divider"></div>
+  <div class="stats-grid">
+    <div class="stats-panel">
+      <p class="stats-panel-title">Los Cabos — Under US$1M</p>
+      <div class="metric-group">
+        <p class="metric-group-title">Units Sold</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>179</td><td>44</td><td>17</td></tr>
+            <tr><td>Condos</td><td>477</td><td>83</td><td>43</td></tr>
+            <tr><td>Total</td><td>656</td><td>127</td><td>60</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Average Price (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>412,217</td><td>450,383</td><td>463,207</td></tr>
+            <tr><td>Condos</td><td>414,268</td><td>421,479</td><td>401,923</td></tr>
+            <tr><td>Total</td><td>413,708</td><td>431,493</td><td>419,287</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Avg Price per sqm (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>2,539</td><td>2,837</td><td>3,034</td></tr>
+            <tr><td>Condos</td><td>3,809</td><td>3,934</td><td>3,720</td></tr>
+            <tr><td>Total</td><td>3,462</td><td>3,554</td><td>3,526</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="stats-panel">
+      <p class="stats-panel-title">SJ Corridor — Under US$1M</p>
+      <div class="metric-group">
+        <p class="metric-group-title">Units Sold</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>4</td><td>2</td><td>0</td></tr>
+            <tr><td>Condos</td><td>38</td><td>10</td><td>4</td></tr>
+            <tr><td>Total</td><td>42</td><td>12</td><td>4</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Average Price (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>490,625</td><td>616,250</td><td>N/A</td></tr>
+            <tr><td>Condos</td><td>632,055</td><td>687,611</td><td>716,498</td></tr>
+            <tr><td>Total</td><td>618,585</td><td>675,717</td><td>716,498</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="metric-group">
+        <p class="metric-group-title">Avg Price per sqm (US$)</p>
+        <table class="stats-table">
+          <thead><tr><th></th><th>12-Month</th><th>YTD</th><th>This Month</th></tr></thead>
+          <tbody>
+            <tr><td>Houses</td><td>3,342</td><td>4,252</td><td>N/A</td></tr>
+            <tr><td>Condos</td><td>4,976</td><td>5,569</td><td>5,720</td></tr>
+            <tr><td>Total</td><td>4,820</td><td>5,349</td><td>5,720</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- INVENTORY -->
+<div class="section section-dark">
+  <p class="section-label">Inventory</p>
+  <h2 class="section-title">Market Absorption</h2>
+  <div class="section-divider"></div>
+  <div class="inventory-grid">
+    <div class="inv-card">
+      <p class="inv-type">Full Market · Houses</p>
+      <div class="inv-months">23.0</div>
+      <div class="inv-label">Months of inventory</div>
+      <div class="inv-units">556 active units · +0.8 vs prev. month</div>
+    </div>
+    <div class="inv-card">
+      <p class="inv-type">Full Market · Condos</p>
+      <div class="inv-months">26.5</div>
+      <div class="inv-label">Months of inventory</div>
+      <div class="inv-units">1,212 active units · +1.0 vs prev. month</div>
+    </div>
+    <div class="inv-card">
+      <p class="inv-type">Under US$1M · Houses</p>
+      <div class="inv-months">20</div>
+      <div class="inv-label">Months of inventory</div>
+      <div class="inv-units">291 active units</div>
+    </div>
+    <div class="inv-card">
+      <p class="inv-type">Under US$1M · Condos</p>
+      <div class="inv-months">26</div>
+      <div class="inv-label">Months of inventory</div>
+      <div class="inv-units">1,022 active units</div>
+    </div>
+  </div>
+  <p style="margin-top:20px;font-size:11px;color:rgba(255,255,255,0.3);">*Inventory months = Active Listings ÷ 12-month average monthly sales &nbsp;·&nbsp; 1 sqm = 10.76 sqft</p>
+</div>
+
+<!-- SALES BY COMMUNITY -->
+<div class="section">
+  <p class="section-label">By Subdivision</p>
+  <h2 class="section-title">Sales by Community — March 2026</h2>
+  <div class="section-divider"></div>
+  <div class="community-table-wrap">
+    <table class="community-table">
+      <thead>
+        <tr>
+          <th>Subdivision</th>
+          <th>Units</th>
+          <th>Avg Price (US$)</th>
+          <th>Price/sqm (US$)</th>
+          <th>Total Sales (US$)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="top-row"><td>Cuatrovientos</td><td>5</td><td>391,607</td><td>4,273</td><td>1,958,033</td></tr>
+        <tr class="top-row"><td>Ventanas</td><td>4</td><td>526,250</td><td>3,070</td><td>2,105,000</td></tr>
+        <tr class="top-row"><td>Tramonti Paradiso</td><td>3</td><td>442,376</td><td>3,866</td><td>1,327,128</td></tr>
+        <tr class="top-row"><td>Section 6 – Las Verandas</td><td>3</td><td>3,983,333</td><td>11,033</td><td>11,950,000</td></tr>
+        <tr><td>Casa Nima</td><td>2</td><td>712,500</td><td>5,022</td><td>1,425,000</td></tr>
+        <tr><td>Auberge Residences</td><td>2</td><td>2,265,000</td><td>8,236</td><td>4,530,000</td></tr>
+        <tr><td>Vista Vela III</td><td>2</td><td>307,500</td><td>2,725</td><td>615,000</td></tr>
+        <tr><td>Hermitage</td><td>2</td><td>745,000</td><td>3,434</td><td>1,490,000</td></tr>
+        <tr><td>Tortuga Bay</td><td>2</td><td>1,159,250</td><td>8,038</td><td>2,318,500</td></tr>
+        <tr><td>Palmilla Estates</td><td>2</td><td>3,168,500</td><td>8,532</td><td>6,337,000</td></tr>
+        <tr><td>Villas del Mar</td><td>1</td><td>10,700,000</td><td>22,949</td><td>10,700,000</td></tr>
+        <tr><td>Espíritu del Mar</td><td>1</td><td>7,300,000</td><td>20,970</td><td>7,300,000</td></tr>
+        <tr><td>Section 28 – Ocean Residences</td><td>1</td><td>4,250,000</td><td>17,063</td><td>4,250,000</td></tr>
+        <tr><td>Hacienda CSL</td><td>1</td><td>4,950,000</td><td>17,616</td><td>4,950,000</td></tr>
+        <tr><td>Section 10 – El Parque</td><td>1</td><td>5,150,000</td><td>12,522</td><td>5,150,000</td></tr>
+        <tr><td>Pedregal CSL</td><td>1</td><td>3,590,000</td><td>8,328</td><td>3,590,000</td></tr>
+        <tr><td>Oceano Baja</td><td>1</td><td>3,500,000</td><td>8,729</td><td>3,500,000</td></tr>
+        <tr><td>Villa La Estancia</td><td>1</td><td>1,750,000</td><td>6,481</td><td>1,750,000</td></tr>
+        <tr><td>Terrasol</td><td>1</td><td>850,000</td><td>6,091</td><td>850,000</td></tr>
+        <tr><td>Residencial La Jolla</td><td>1</td><td>1,200,000</td><td>2,727</td><td>1,200,000</td></tr>
+        <tr><td>El Encanto</td><td>1</td><td>2,700,000</td><td>9,220</td><td>2,700,000</td></tr>
+        <tr><td>Villas de Oro</td><td>1</td><td>1,100,000</td><td>3,459</td><td>1,100,000</td></tr>
+        <tr><td>The Canyon Entre Piedras</td><td>1</td><td>925,000</td><td>6,681</td><td>925,000</td></tr>
+        <tr><td>Palmilla Dunes</td><td>1</td><td>870,000</td><td>6,479</td><td>870,000</td></tr>
+        <tr><td>Section 9 – Club Villas</td><td>1</td><td>3,860,000</td><td>8,286</td><td>3,860,000</td></tr>
+        <tr><td>El Tezal W:General</td><td>1</td><td>640,000</td><td>2,783</td><td>640,000</td></tr>
+        <tr><td>El Tul-Inland:General</td><td>1</td><td>540,000</td><td>4,065</td><td>540,000</td></tr>
+        <tr><td>Santarena</td><td>1</td><td>530,991</td><td>5,657</td><td>530,991</td></tr>
+        <tr><td>Finisterra</td><td>1</td><td>575,000</td><td>2,477</td><td>575,000</td></tr>
+        <tr><td>Vista Vela</td><td>1</td><td>595,000</td><td>3,719</td><td>595,000</td></tr>
+        <tr><td>Rancho Paraíso</td><td>1</td><td>800,000</td><td>1,977</td><td>800,000</td></tr>
+        <tr><td>Tesoro</td><td>1</td><td>410,000</td><td>6,055</td><td>410,000</td></tr>
+        <tr><td>Club La Costa</td><td>1</td><td>365,000</td><td>4,500</td><td>365,000</td></tr>
+        <tr><td>Other subdivisions</td><td>15</td><td>—</td><td>—</td><td>~6,000,000</td></tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>Total / Average</td>
+          <td>78</td>
+          <td>1,260,195</td>
+          <td>5,347</td>
+          <td>98,295,213</td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <p class="section-label" style="text-align:center;">Escuadra Asesores</p>
+  <h2 class="section-title" style="color:var(--gray-dark);">Receive the Market Watch<br>every month.</h2>
+  <p>Our monthly report is free. Subscribe to stay informed about the Los Cabos real estate market.</p>
+  <a href="index.html#contacto" class="btn-primary">Subscribe</a>
+  <a href="index.html#market-watch" class="btn-ghost">View all reports</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="logo">
+    <img src="logo-dark.png" alt="Escuadra" style="height:44px;filter:brightness(0.6);" />
+  </a>
+  <p class="footer-copy">© 2026 Escuadra Asesores S.C. · RFC: EAS161020HQ4 · San José del Cabo, B.C.S.</p>
+</footer>
+
+<script>
+  // Chart — Full Market Price per sqm trend (last 12 months shown)
+  const months = ['abr-24','may-24','jun-24','jul-24','ago-24','sep-24','oct-24','nov-24','dic-24','ene-25','feb-25','mar-25','abr-25','may-25','jun-25','jul-25','ago-25','sep-25','oct-25','nov-25','dic-25','ene-26','feb-26','mar-26'];
+
+  const chartDefaults = {
+    responsive: true,
+    plugins: {
+      legend: {
+        labels: { font: { family: 'Montserrat', size: 10 }, color: '#6b6e73', boxWidth: 12 }
+      }
+    },
+    scales: {
+      x: {
+        ticks: { font: { family: 'Montserrat', size: 9 }, color: '#9a9d9f', maxRotation: 45 },
+        grid: { color: 'rgba(78,84,89,0.08)' }
+      },
+      y: {
+        ticks: { font: { family: 'Montserrat', size: 9 }, color: '#9a9d9f' },
+        grid: { color: 'rgba(78,84,89,0.08)' }
+      }
+    }
+  };
+
+  // Full Market Houses & Condos Price per sqm (approximate 24-month trend from chart data)
+  new Chart(document.getElementById('chartLosCabos'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'Houses Avg $/sqm',
+          data: [4100,3900,4200,4600,3800,4100,5100,3900,4300,3700,4800,4200,4500,5100,4800,7800,6900,4900,5200,4800,4200,3600,3900,6014],
+          borderColor: '#4e5459', backgroundColor: 'rgba(78,84,89,0.08)',
+          tension: 0.3, pointRadius: 3, pointBackgroundColor: '#4e5459'
+        },
+        {
+          label: 'Condos Avg $/sqm',
+          data: [3800,4100,3700,4000,3900,4100,4300,3800,4100,4000,3900,4200,4100,4400,4000,4200,3900,4100,4300,4000,3800,4200,4100,4953],
+          borderColor: '#adbdb6', backgroundColor: 'rgba(173,189,182,0.08)',
+          tension: 0.3, pointRadius: 3, pointBackgroundColor: '#adbdb6'
+        }
+      ]
+    },
+    options: chartDefaults
+  });
+
+  // Under $1M Price per sqm
+  new Chart(document.getElementById('chartU1M'), {
+    type: 'line',
+    data: {
+      labels: months,
+      datasets: [
+        {
+          label: 'Houses U1M $/sqm',
+          data: [2300,2500,2400,2600,2100,2400,2800,2200,2500,2100,2700,2400,2500,2900,2700,3100,2600,2400,2600,2500,2200,2400,2700,3034],
+          borderColor: '#4e5459', backgroundColor: 'rgba(78,84,89,0.08)',
+          tension: 0.3, pointRadius: 3, pointBackgroundColor: '#4e5459'
+        },
+        {
+          label: 'Condos U1M $/sqm',
+          data: [3500,3700,3400,3800,3600,3700,4000,3500,3800,3600,3500,3900,3800,4000,3700,3900,3600,3800,4000,3700,3500,3900,3800,3720],
+          borderColor: '#adbdb6', backgroundColor: 'rgba(173,189,182,0.08)',
+          tension: 0.3, pointRadius: 3, pointBackgroundColor: '#adbdb6'
+        }
+      ]
+    },
+    options: chartDefaults
+  });
+</script>
+</body>
+</html>
